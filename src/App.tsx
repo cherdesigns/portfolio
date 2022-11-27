@@ -44,7 +44,6 @@ function App() {
                     style={{ padding: 24 }}
                     show={show}
                 >
-                    <Offcanvas.Header closeButton className='justify-content-end' style={{ padding: 0 }} />
                     <Nav id='nav-body'>
                         <h1 style={{ marginBottom: 0 }}>Cherilyn Tan</h1>
                         <Line />
