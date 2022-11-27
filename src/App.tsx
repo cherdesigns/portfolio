@@ -3,6 +3,7 @@ import './App.css';
 import Carousel from 'react-bootstrap/Carousel';
 import { ABOUT_ME, CATEGORIES, Project } from './data/projects';
 import { EMAIL, EMAIL_LINK, SOCIALS } from './data/contact';
+import { Nav, Navbar, Offcanvas } from 'react-bootstrap';
 
 const Line = (props: any) => (
     <div
@@ -23,57 +24,71 @@ const Link = (props: any) => (
 
 function App() {
     const [projects, setProjects] = React.useState<Project[]>([ABOUT_ME]);
+    const [show, setShow] = React.useState<boolean>(false);
 
     return (
         <div className='App' style={{ display: 'flex', height: '100vh' }}>
-            <div
-                id='nav'
-                style={{
-                    display: 'flex',
-                    flex: 1,
-                    padding: 24,
-                    flexFlow: 'column',
-                    alignItems: 'start',
-                    boxSizing: 'border-box',
-                }}
-            >
-                <h1 style={{ marginBottom: 0 }}>Cherilyn Tan</h1>
-                <h2
-                    style={{ marginBottom: 0, cursor: 'pointer', textAlign: 'left' }}
-                    onClick={() => setProjects([ABOUT_ME])}
+            <Navbar expand='sm' style={{ alignItems: 'start', padding: 0 }}>
+                <Navbar.Toggle
+                    aria-controls={`offcanvasNavbar-expand-sm`}
+                    style={{ margin: 24, marginBottom: 0, justifySelf: 'end' }}
+                    onClick={() => {
+                        setShow(true);
+                    }}
+                />
+
+                <Navbar.Offcanvas
+                    id={`offcanvasNavbar-expand-sm`}
+                    aria-labelledby={`offcanvasNavbarLabel-expand-sm`}
+                    placement='start'
+                    style={{ padding: 24 }}
+                    show={show}
                 >
-                    About me
-                </h2>
-                <Line />
-                <nav>
-                    <ol type='1' style={{ margin: 0 }}>
-                        {CATEGORIES.map(({ title, projects }) => (
-                            <h2 key={title} style={{ margin: 0 }}>
-                                <li
-                                    style={{ cursor: 'pointer', textAlign: 'left' }}
-                                    onClick={() => setProjects(projects)}
-                                >
-                                    {title}
-                                </li>
-                            </h2>
-                        ))}
-                    </ol>
-                </nav>
-                <Line />
-                <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
-                    {SOCIALS.map(({ name, link }) => (
-                        <h2 key={name} style={{ margin: 0 }}>
-                            <Link href={link}>
-                                <li style={{ textAlign: 'left' }}>{name}</li>
-                            </Link>
+                    <Offcanvas.Header closeButton className='justify-content-end' style={{ padding: 0 }} />
+                    <Nav id='nav-body'>
+                        <h1 style={{ marginBottom: 0 }}>Cherilyn Tan</h1>
+                        <Line />
+                        <h2
+                            style={{ marginBottom: 0, cursor: 'pointer', textAlign: 'left' }}
+                            onClick={() => {
+                                setProjects([ABOUT_ME]);
+                                setShow(false);
+                            }}
+                        >
+                            About me
                         </h2>
-                    ))}
-                </ul>
-                <Line />
-                <h2 style={{ margin: 0 }}>
-                    <Link href={EMAIL_LINK}>{EMAIL}</Link>
-                </h2>
-            </div>
+                        <ol type='1' style={{ margin: 0 }}>
+                            {CATEGORIES.map(({ title, projects }) => (
+                                <h2 key={title} style={{ margin: 0 }}>
+                                    <li
+                                        style={{ cursor: 'pointer', textAlign: 'left' }}
+                                        onClick={() => {
+                                            setProjects(projects);
+                                            setShow(false);
+                                        }}
+                                    >
+                                        {title}
+                                    </li>
+                                </h2>
+                            ))}
+                        </ol>
+                        <Line />
+                        <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+                            {SOCIALS.map(({ name, link }) => (
+                                <h2 key={name} style={{ margin: 0 }}>
+                                    <Link href={link}>
+                                        <li style={{ textAlign: 'left' }}>{name}</li>
+                                    </Link>
+                                </h2>
+                            ))}
+                        </ul>
+                        {/* <Line />
+                        <h2 style={{ margin: 0 }}>
+                            <Link href={EMAIL_LINK}>{EMAIL}</Link>
+                        </h2> */}
+                    </Nav>
+                </Navbar.Offcanvas>
+            </Navbar>
             <div
                 id='content'
                 style={{
@@ -97,7 +112,7 @@ function App() {
                         {images.length > 0 && (
                             <Carousel style={{ width: '100%' }} variant='dark'>
                                 {images.map(({ src, alt }) => (
-                                    <Carousel.Item>
+                                    <Carousel.Item key={src}>
                                         <Link href={link}>
                                             <img src={src} alt={alt} style={{ marginBottom: 16 }} />
                                         </Link>
