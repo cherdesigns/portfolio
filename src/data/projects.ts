@@ -8,6 +8,7 @@ export const ABOUT_ME: Project = {
         'Vivamus semper varius risus, a congue lectus pharetra id. Cras dapibus tortor ac cursus aliquet. Quisque dui ante, convallis eget fermentum vitae, blandit eu ipsum. Aenean vel ligula ut enim dignissim volutpat. Proin quis ullamcorper odio, eget pretium arcu. Phasellus eu sem mollis, mollis nibh ac, venenatis ante. Phasellus eu risus id nunc lacinia ornare eget varius metus.',
     images: [],
     link: EMAIL_LINK,
+    tags: [],
 };
 
 /*
@@ -55,7 +56,7 @@ export const CATEGORIES: Category[] = [
         title: 'DFA',
         projects: [
             {
-                title: 'Project 1',
+                title: 'DFA Project 1',
                 images: [
                     {
                         src: 'https://images.squarespace-cdn.com/content/v1/62a839e99ffbaa281368a294/3db9931a-4d9a-49bb-827d-c6accb399598/Asset+15.jpg?format=1500w',
@@ -66,6 +67,7 @@ export const CATEGORIES: Category[] = [
                 description:
                     'Vivamus semper varius risus, a congue lectus pharetra id. Cras dapibus tortor ac cursus aliquet. Quisque dui ante, convallis eget fermentum vitae, blandit eu ipsum. Aenean vel ligula ut enim dignissim volutpat. Proin quis ullamcorper odio, eget pretium arcu. Phasellus eu sem mollis, mollis nibh ac, venenatis ante. Phasellus eu risus id nunc lacinia ornare eget varius metus.',
                 link: 'https://www.designforamerica.org/',
+                tags: ['Community building', 'Teaching'],
             },
         ],
     },
@@ -73,7 +75,7 @@ export const CATEGORIES: Category[] = [
         title: 'Agncy',
         projects: [
             {
-                title: 'Project 1',
+                title: 'Agncy Project 1',
                 images: [
                     {
                         src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAV0AAACRCAMAAABXC5v+AAAAhFBMVEUAAAD////w8PB5eXkxMTH8/PyhoaEZGRmenp50dHSkpKT4+Pjm5ubBwcH6+vrW1ta4uLiPj4/p6elAQECvr6/e3t5eXl7Ozs7S0tKYmJjIyMiIiIhKSkpRUVG9vb0NDQ1tbW0nJycdHR2AgICLi4s8PDwrKytkZGRXV1dGRkY2NjYUFBS184PWAAAM5klEQVR4nO1d60LqMAx2KAgybgoqIALiBfT93++I25K0TbpurGzs7Puj7Jplae7trq5ccPv01HM6sEEOTIMgaE9vyiajpmgHR7R/yqajlrgOImzLJqSWmEXMfSqbjlriJhbdr7IJqSWmEXNbZdNRTwwj7nbKpqOW6MWKoXHIfGDU2DR/+IxFd1M2IbVEY9N8ot/YNH9IbFoTp/nAc2PTTsLjyrLzprFpJ2EXBOG7mP26i5jbPydFdUL4l1x8FQS4FXH37rw01QYP8dAPwgkjwJt45+f5CasFpgFisNf3xjbtuQzK6oB+QBFO1nTnd2PTTsMs0DAgGrixaadicq/z936e7Gts2unYD3T+xho4sWlinPY278aYnI/cy4MpwK052LSReFqIx4/PSO3l4eXVEOBF/FdsFHmgR5+T2EvEMjQYfMRQPIF6c8HujJReJl5e2yZ3p+LhymGzM9J5qVgvDRftWzr22vG4BgQvY0WAZZs2Urnb+G1uUAT4WjrqU2VuE3O4AwRY5tmdrkI2Z6OuBtjN7DatpXO3qV9kwmHc7os9Il86c5vaW4F4SnjaHib/dcumqTa4BYkdj5P/7ssmqjboAndXK/j3sWyq6oJ7IrDw/6JsqmqCR5DXOZHj9m3ZdNUDmBL+dRS28OO9bLpqgTfVyX1OfoVlE1YLTIC7m+PPHvx8KZeuegAywXHjKeR9mhLF6UAfLE6Mgcsrp9o5bD8eHh5u1ukHslh/PhxPzzRH8e+O328573geADOTpO4LbHAuUazuZnGmoh+ON7D5q3fEtaJhPq//NvaIR/K5HIRxK8bwfrB08lVW3VGSG2mNug/cIfuecScTm+gYbxPMQBFA8vfe2GLFuqvlgPp3kQSDc0e6KtZJqA0200zxL9IU/k9HzzphYwFgB/ssVwJ3yTy/EAARmPydw6YPhwt0dOYAsSPjytjlGgTRiO4y5akgGFjvOOVOMRIjGIDKUSdJATg8aQ6A5LRxG9wzvUSxMnKXEcIt8e047v4FK5s+f3YwlMV3w76PX7TU1k8sCMjvCkXL1vecHwfu7UHKLLVEgd6cgVU6dxf8mX+QBM5sJkCowxtuH4imFkaXp5wVjrIDbtzAxo39bLSIDPbwkljuXt0IYm/SQ2AoaQXK+EbHfSmQj2rKU74VhlnIbrW3o1qZG7TBkea423/kzwKw44bv0hDYC2pHaiBAA+OnVoCFdqV5DCXa5s6w9owDa9VSwRgau+QeQSeL4VOwHht5V27OUWZgoV3ZjNrYMmRQf0QIF9Ppk9HDdkQqd/uz8V2nM56pBsvwWHSdez9bPIeaYdzg4ei48wXFHI59JuCzanZVj44ZrBVWhMt4cH1OTHVq525/Cm3y62s69F+1O+6U0557kU+3Xk0pJUMS7sHFeOuMsp3OqTzAQrtmotEXMCYIJKAGv73jT3bhrtbP2iW7VFv/Rpk4okbvVpnSwBGy4Z6gxZxSJGBU6SJ6yxGrYE8eKNRi/W9NP1i4uzC8JSKh6oClncl6aPVIOI+uq5Zb1c+BvX7iYCy0G+oVJVM4l7RGmTbhR2WvzF0uAEVBVN7sCzltY5z0gewl5IBPyDkFoMU9NR5Zbo4mi3cWMbPGZtnfFFsjcpe3JnCu4uMjsWwTMmE+Kg18CqafHvbJTTQnAa7PuLUpziLKdptNAVLFIXJXmEKA1mDLnsjH56iwiSsHT2GKAAYbgr92ItCZZoQBH5ENmljWUdBIQ+CupNKxDZ5kG5AeKWoFbURkEbWMkUiAseCpwgU2k1M8+Ihc+mgJe6U4aJ3KXVndAWE9ZpvoxURqoDWg6uZDfgrY42cSDg5eVvFAXMSVKFAJiuk94iXx3JVdeLg1Gj3U83JcNWgtlrqa4lKAf3iHC/rpLEAPh1U8TOIXYdFnCb4D7gLIXcvyMaBV0JVBLbZJey4FS46II4Dtnro94b784P4xixYAVBuWYYVhF8tdS4w9NY+BdGJW90mQ+S1s97NcLgYywhBF2TY6U1EiLNULtEMsdy1TMyA9hNzNXagWngI8jGylWWeAaOkaKQHGMoYLBIyzrQ6Fziab37WUf03u3nDXcgI+hTJYwMHwU/JB71tPlpgUGDyEcWqN0O3ctRgTk7sYVWYusLPRPiYBxTzKSUB/VCwpoX+uB+JgEqyFN+i0Pp27aGJTHssEm6kCze6p5AOPHrREwCG6XQWptiZGrbWJbNwFlyH7PEVUKmSQtow7FAo1V5oKLQ8B3LVml6wV92zcBVnL4T9hQQM2oTL2M+0xvYaiQMtlAXc3tnsUyF2w/Dl6tlGQYKTB5fyUfDBCdIOmns4uu8COPIlueApQK+Df+Sn58O0sFqimFbhr9Y9mzFElyC4px8XLWUGttp23qdAOqQdGhCozYK+sRgFMx+ncBcOfJ27FhErs4rg5lLmBuU1nKG8ZpNLqi8O5pfoMV0YycAuE+ZnXhE1AzlBKFDDWbLlRjFdK9XevDMcdcgB+1iHG9FVfdnYjgP5XhAYnBllCJ0xklBqr0ZtGatstFsoNbKJJdfcw80dLFE6NZpgDPp27n9y13KE0xaC/5NJAmx2ghxy0GJBCU+xYkLfYcDimAO6eOJkDG7reydX9rE+Dw0xqDiSA8qSSqsOKutjfhlnKIrjrkt89dMT6I63BAu1+Sj44ZB0OxldBxyT6y6LuIj1LBXDXpZP8V75HqTXUD6wheXF2sUPFyd2D106jRtIeKggvXcaoAO6izyp6vJFfMRxzAkwmNp2SsnAAGiqn3CaaQLpwr5w/i0HjlQK4S64nDX/riMdcNVxoIxNwAoAxbu4eujO0N5b07rLKW1mOsgjuoi4SMi84WLj3jSIFBMj3PwFCKUQGuDOKQSF0MpqQdjIWw90DezkCbCTjUjNbg7t+Sj4oVY6OOQoFzYjRPJDBXk1SiuAubQvkvHTSZsZek+yPwM/LOBVweecluqGMoTi3lFJN0+k94oVwl6yM1DctKRksfNOd3invp+SD8alzIZ/v0V5SWmfEQPaM5vNCuEsT/i29B4A2ZAtOjJYW9FPySS20m8B0jFKiUBc3DOf7X02zfbxj5kkVw13awKuJBm0JlPpFtZS2l8nbh1QqGIDUKMPpbajSG7T7Qtq4GO6q/HnG0bKjL1SM5ZQFhj2VfPAtZ1jbAjvalOr8KrCjwOx5BHW22v209/Kw2o3VwSJneZRSop+SD1w+S9cqtpSpnSXMEnwES/tcyxzcvZGmCCPE1hdtskyGp3cHZqEzpTDAi9OUtY293SKrljHS5mfa015uL+EE4OjI1LWKT6UFZg/s7L/47RXP3TT2hta1ScgcMC+zfLQkvTuAiYZw8NXl/jHA8MDdq5VNOYT2rBeOND8lH2RFxpeHwZeRQzloy04fEfkjPrh7dStPxE5N+YFL46fkI87+S8NWY5yCg7r8d3sa+/N27locTht3xTUh2qnREVZU/Mzygctn/m4o2H/eHuzni1mr32/NnjqYdOC4C6/J1kMOIyV1yhXy1uGJPJd8rvZ3EbKvsfPWic7sZljTiuPu1VdMgnWplHl0jOzX7NSegWcn9xUcY4eCV/UBDsrGx9VXk+lgNpstphPHBmf0N6q9hJkjQFaqsZQvOO31WNMdZKUaC0oCOZuyKSkCkFG1uQfnAyRL6vEtDUgYVeOz8WAFPE1pLxxv89ASsINzXYk1vjH1Wg09lYavv7hd9IVyJox8AcLUi1i0OVlacyjF9ukNCGcFkONpPc1CgZIpFD8xTV8JYcF+8Ev4CAwpsbLJE5IMqIRigNjuMj5WTVJVjNUizPU08yMb8s8zLge0qBbqbca0zylzwsgHsFm+bEocobSEjCl/J7Q0XA3fHbL/ogd5CNpTP+05+aCW12edr8Pbz/d+py2q621F8SzABI6Y8fkbbrPqfIzWLLi3zbJMNQIj0FRi2PgTHzAcV0WArw1eGqiGhcaOAbHkQ8xwVQTYsi53TGjZFEbAxvVP6RCltt2vhgCnSG8lEgxHJGGw+Lb3OumzKtQvXmxrl1co5lxHX14XWTYwqW9XQYCZCmKEkZ+5drmxGltSofwjVEADb9m15UfVqPY4IjYgbVOEx+XnK9+1hpFZR/y2bjUR27RXTP0hwgp8xW//Pn0a/eJ5OqlE/JAJief+1wXwaH5j5LV8Ab5gxAoBUqVzo/ewCgJ8qYhZSDi4NzRwNeKiC0Ri05Q2o5+JKsCVqAFcIkKwaSoUAW6+vJ4Pik1T8TOBIkHzdeV8GFuHfizAjdrNiTiBJpb/bo8CfFHBUYWwdBj6ez+fDvwPEHdAefrWz3+OZH6sn1WO/3fExVdPqxz/51in2bQGJyCxaWXTUU80Ns0jGpvmE+PGpnlEvIBHheqrNUJj03witmmV6buoFRKb1qRofCDuma7GjK/64WPa2DSv6D05at1/OwuOdqRKHacAAAAASUVORK5CYII=',
@@ -84,6 +86,7 @@ export const CATEGORIES: Category[] = [
                 description:
                     'Vivamus semper varius risus, a congue lectus pharetra id. Cras dapibus tortor ac cursus aliquet. Quisque dui ante, convallis eget fermentum vitae, blandit eu ipsum. Aenean vel ligula ut enim dignissim volutpat. Proin quis ullamcorper odio, eget pretium arcu. Phasellus eu sem mollis, mollis nibh ac, venenatis ante. Phasellus eu risus id nunc lacinia ornare eget varius metus.',
                 link: 'https://agncy.org/',
+                tags: ['Design'],
             },
         ],
     },
@@ -91,7 +94,7 @@ export const CATEGORIES: Category[] = [
         title: 'Creative Reaction Lab',
         projects: [
             {
-                title: 'Project 1',
+                title: 'CRX Project 1',
                 images: [
                     {
                         src: 'data:image/png;base64,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',
@@ -102,6 +105,7 @@ export const CATEGORIES: Category[] = [
                 description:
                     'Vivamus semper varius risus, a congue lectus pharetra id. Cras dapibus tortor ac cursus aliquet. Quisque dui ante, convallis eget fermentum vitae, blandit eu ipsum. Aenean vel ligula ut enim dignissim volutpat. Proin quis ullamcorper odio, eget pretium arcu. Phasellus eu sem mollis, mollis nibh ac, venenatis ante. Phasellus eu risus id nunc lacinia ornare eget varius metus.',
                 link: 'https://crxlab.org/',
+                tags: ['Community building', 'Art'],
             },
         ],
     },
@@ -120,10 +124,30 @@ export const CATEGORIES: Category[] = [
                 description:
                     'Vivamus semper varius risus, a congue lectus pharetra id. Cras dapibus tortor ac cursus aliquet. Quisque dui ante, convallis eget fermentum vitae, blandit eu ipsum. Aenean vel ligula ut enim dignissim volutpat. Proin quis ullamcorper odio, eget pretium arcu. Phasellus eu sem mollis, mollis nibh ac, venenatis ante. Phasellus eu risus id nunc lacinia ornare eget varius metus.',
                 link: 'https://www.brown.edu/campus-life/support/careerlab/about-us/our-staff/peer-career-advisors-pcas',
+                tags: ['Mentoring', 'Career'],
             },
         ],
     },
 ];
+
+export const TAGS_TO_PROJECTS: { [tag: string]: Project[] } = {};
+
+const tagsSet = new Set<string>();
+for (const c of CATEGORIES) {
+    for (const p of c.projects) {
+        for (const t of p.tags) {
+            tagsSet.add(t);
+
+            if (t in TAGS_TO_PROJECTS) {
+                TAGS_TO_PROJECTS[t].push(p);
+            } else {
+                TAGS_TO_PROJECTS[t] = [p];
+            }
+        }
+    }
+}
+
+export const TAGS: string[] = Array.from(tagsSet.values());
 
 // Stuff you don't have to worry about
 
@@ -132,6 +156,7 @@ export type Project = {
     description: string;
     images: Image[];
     link: string;
+    tags: string[];
 };
 
 export type Category = {

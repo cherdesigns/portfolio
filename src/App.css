@@ -51,3 +51,35 @@
         align-items: end;
     }
 }
+
+.primary {
+    color: #967bb6;
+}
+
+.primary-button,
+.primary-button-selected {
+    color: black;
+    border-radius: 8px;
+    border: 1px solid black;
+    text-decoration: none;
+    text-align: center;
+    padding: 8px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.primary-button:active,
+.primary-button:hover,
+.primary-button-selected {
+    box-shadow: #967bb6 0px 0px 4px;
+    border-color: #967bb6;
+    color: #967bb6;
+}
+
+a {
+    color: #967bb6;
+}
+
+a:hover {
+    color: #967bb6;
+}
