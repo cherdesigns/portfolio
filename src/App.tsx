@@ -3,22 +3,54 @@ import './App.css';
 import Carousel from 'react-bootstrap/Carousel';
 import { ABOUT_ME, CATEGORIES, Project, TAGS, TAGS_TO_PROJECTS } from './data/projects';
 import { SOCIALS } from './data/contact';
-import { Nav, Navbar } from 'react-bootstrap';
+import { CloseButton, Nav, Navbar } from 'react-bootstrap';
 
 const Line = (props: any) => (
     <div
         style={{
             background: 'black',
-            height: 1,
             width: '100%',
             marginBottom: 8,
             marginTop: 8,
+            height: 1,
             ...(props.style ?? {}),
         }}
+        {...props}
     />
 );
 
-const Link = (props: any) => <a target='_blank' {...props} />;
+const ZigZagLine = (props: any) => (
+    <div
+        style={{
+            width: '100%',
+            ...(props.style ?? {}),
+        }}
+        className={'zigzag-base' + (props.active ? ' zigzag' : '')}
+        {...props}
+    />
+);
+
+const Link = (props: any) => {
+    const [active, setActive] = React.useState<boolean>(false);
+
+    return (
+        <a
+            target='_blank'
+            {...props}
+            style={{ textDecoration: 'none', ...(props.style ?? {}) }}
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
+        >
+            {props.children}
+            <ZigZagLine
+                active={active}
+                style={{
+                    top: -14,
+                }}
+            />
+        </a>
+    );
+};
 
 function App() {
     const [tags, setTags] = React.useState<string[]>([]);
@@ -27,27 +59,26 @@ function App() {
 
     return (
         <div className='App' style={{ display: 'flex', height: '100vh' }}>
-            <Navbar expand='sm' style={{ alignItems: 'start', padding: 0, flex: 1 }}>
+            <Navbar id='nav' expand='sm' style={{ alignItems: 'start', padding: 0 }}>
                 <Navbar.Toggle
                     aria-controls={`offcanvasNavbar-expand-sm`}
                     style={{ margin: 24, marginBottom: 0, justifySelf: 'end' }}
-                    onClick={() => {
-                        setShow(true);
-                    }}
+                    onClick={() => setShow(true)}
                 />
 
                 <Navbar.Offcanvas
                     id={`offcanvasNavbar-expand-sm`}
                     aria-labelledby={`offcanvasNavbarLabel-expand-sm`}
                     placement='start'
-                    style={{ padding: 24 }}
+                    style={{ padding: 24, alignItems: 'end' }}
                     show={show}
                 >
+                    <CloseButton id='close-button' aria-label='Hide navigation menu' onClick={() => setShow(false)} />
                     <Nav id='nav-body'>
                         <h1 style={{ marginBottom: 0 }}>Cherilyn Tan</h1>
                         <Line />
                         <h2
-                            className={ABOUT_ME === projects[0] ? 'primary' : ''}
+                            className={ABOUT_ME === projects[0] && projects.length === 1 ? 'primary' : ''}
                             style={{
                                 marginBottom: 0,
                                 cursor: 'pointer',
@@ -108,23 +139,18 @@ function App() {
                                         const i = tags.indexOf(tag);
                                         const nextTags =
                                             i === -1 ? [...tags, tag] : tags.slice(0, i).concat(tags.slice(i + 1));
+                                        const nextProjects = Array.from(
+                                            new Set(nextTags.map((nextTag) => TAGS_TO_PROJECTS[nextTag]).flat())
+                                        );
 
                                         setTags(nextTags);
-                                        setProjects(
-                                            Array.from(
-                                                new Set(nextTags.map((nextTag) => TAGS_TO_PROJECTS[nextTag]).flat())
-                                            )
-                                        );
+                                        setProjects(nextProjects.length > 0 ? nextProjects : [ABOUT_ME]);
                                     }}
                                 >
                                     {tag}
                                 </a>
                             ))}
                         </div>
-                        {/* <Line />
-                        <h2 style={{ margin: 0 }}>
-                            <Link href={EMAIL_LINK}>{EMAIL}</Link>
-                        </h2> */}
                     </Nav>
                 </Navbar.Offcanvas>
             </Navbar>
@@ -148,17 +174,34 @@ function App() {
                     >
                         <h1 style={{ marginBottom: 0 }}>{title}</h1>
                         <Line />
-                        {images.length > 0 && (
+                        {images.length === 1 ? (
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    width: '100%',
+                                    justifyContent: 'center',
+                                    alignItems: 'start',
+                                }}
+                            >
+                                <a href={link} target='_blank'>
+                                    <img
+                                        src={images[0].src}
+                                        alt={images[0].alt}
+                                        style={{ marginBottom: 16, maxWidth: '100%' }}
+                                    />
+                                </a>
+                            </div>
+                        ) : images.length > 1 ? (
                             <Carousel style={{ width: '100%' }} variant='dark'>
                                 {images.map(({ src, alt }) => (
                                     <Carousel.Item key={src}>
-                                        <Link href={link}>
+                                        <a href={link} target='_blank'>
                                             <img src={src} alt={alt} style={{ marginBottom: 16, maxWidth: '100%' }} />
-                                        </Link>
+                                        </a>
                                     </Carousel.Item>
                                 ))}
                             </Carousel>
-                        )}
+                        ) : null}
                         <p style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: description }}></p>
                     </div>
                 ))}

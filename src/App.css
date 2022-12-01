@@ -37,6 +37,10 @@
     }
 }
 
+#nav {
+    flex: 1;
+}
+
 #nav-body {
     display: flex;
     flex: 1;
@@ -49,6 +53,16 @@
     .App {
         flex-flow: column;
         align-items: end;
+    }
+
+    #nav {
+        flex: 0;
+    }
+}
+
+@media only screen and (min-width: 786px) {
+    #close-button {
+        display: none;
     }
 }
 
@@ -69,11 +83,18 @@
 }
 
 .primary-button:active,
-.primary-button:hover,
 .primary-button-selected {
     box-shadow: #967bb6 0px 0px 4px;
     border-color: #967bb6;
     color: #967bb6;
+}
+
+.primary-button:hover {
+    scale: 1.05;
+}
+
+.primary-button-selected:hover {
+    scale: 1.05;
 }
 
 a {
@@ -82,4 +103,45 @@ a {
 
 a:hover {
     color: #967bb6;
+}
+
+.zigzag-base {
+    background: transparent;
+    position: relative;
+    z-index: 1;
+    transition: 0.5s ease;
+    height: 0;
+}
+
+.zigzag {
+    height: 16px;
+}
+
+.zigzag::before,
+.zigzag::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.zigzag::before {
+    height: 12px;
+    top: 110%;
+    background: linear-gradient(-135deg, #967bb6 8px, transparent 0) 0 8px,
+        linear-gradient(135deg, #967bb6 8px, transparent 0) 0 8px;
+    background-position: top left;
+    background-repeat: repeat-x;
+    background-size: 16px 16px;
+}
+
+.zigzag::after {
+    height: 16px;
+    top: 100%;
+    background: linear-gradient(-135deg, white 8px, transparent 0) 0 8px,
+        linear-gradient(135deg, white 8px, transparent 0) 0 8px;
+    background-position: top left;
+    background-repeat: repeat-x;
+    background-size: 16px 16px;
 }
