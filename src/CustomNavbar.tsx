@@ -3,62 +3,30 @@ import './App.css';
 import { ABOUT_ME, CATEGORIES, Project, TAGS, TAGS_TO_PROJECTS } from './data/projects';
 import { SOCIALS } from './data/contact';
 import { CloseButton, Nav, Navbar } from 'react-bootstrap';
-
-const Line = (props: any) => (
-    <div
-        style={{
-            background: 'black',
-            width: '100%',
-            marginBottom: 8,
-            marginTop: 8,
-            height: 1,
-            ...(props.style ?? {}),
-        }}
-        {...props}
-    />
-);
-
-const ZigZagLine = (props: any) => (
-    <div
-        style={{
-            width: '100%',
-            ...(props.style ?? {}),
-        }}
-        className={'zigzag-base' + (props.active ? ' zigzag' : '')}
-        {...props}
-    />
-);
-
-const Link = (props: any) => {
-    const [active, setActive] = React.useState<boolean>(false);
-
-    return (
-        <a
-            target='_blank'
-            {...props}
-            style={{ textDecoration: 'none', ...(props.style ?? {}) }}
-            onMouseEnter={() => setActive(true)}
-            onMouseLeave={() => setActive(false)}
-        >
-            {props.children}
-            <ZigZagLine
-                active={active}
-                style={{
-                    top: -14,
-                }}
-            />
-        </a>
-    );
-};
+import ContactPage from './ContactPage';
+import ProjectsPage from './ProjectsPage';
+import Line from './Line';
+import Link from './Link';
 
 type CustomNavbarProps = {
     projects: Project[];
     setProjects: (projects: Project[]) => void;
+    navigate: (pageName: string) => void;
 };
 
 function CustomNavbar(props: CustomNavbarProps) {
     const [tags, setTags] = React.useState<string[]>([]);
     const [show, setShow] = React.useState<boolean>(false);
+
+    const setProjects = (projects: Project[]) => {
+        props.setProjects(projects);
+        props.navigate(ProjectsPage.name);
+    };
+
+    const navigateToContact = () => {
+        props.setProjects([]);
+        props.navigate(ContactPage.name);
+    };
 
     return (
         <Navbar id='nav' expand='sm' style={{ alignItems: 'start', padding: 0 }}>
@@ -89,7 +57,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                             transition: '.2s color',
                         }}
                         onClick={() => {
-                            props.setProjects([ABOUT_ME]);
+                            setProjects([ABOUT_ME]);
                             setShow(false);
                         }}
                     >
@@ -106,7 +74,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                                         transition: '.2s color',
                                     }}
                                     onClick={() => {
-                                        props.setProjects(c.projects);
+                                        setProjects(c.projects);
                                         setShow(false);
                                     }}
                                 >
@@ -117,6 +85,11 @@ function CustomNavbar(props: CustomNavbarProps) {
                     </ol>
                     <Line />
                     <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+                        <h2 style={{ margin: 0 }}>
+                            <Link href='#' target='_self' onClick={navigateToContact}>
+                                <li style={{ textAlign: 'left' }}>Contact</li>
+                            </Link>
+                        </h2>
                         {SOCIALS.map(({ name, link }) => (
                             <h2 key={name} style={{ margin: 0 }}>
                                 <Link href={link}>
@@ -146,7 +119,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                                     );
 
                                     setTags(nextTags);
-                                    props.setProjects(nextProjects.length > 0 ? nextProjects : [ABOUT_ME]);
+                                    setProjects(nextProjects.length > 0 ? nextProjects : [ABOUT_ME]);
                                 }}
                             >
                                 {tag}

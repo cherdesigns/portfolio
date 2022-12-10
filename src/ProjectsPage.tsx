@@ -2,20 +2,7 @@ import React from 'react';
 import './App.css';
 import Carousel from 'react-bootstrap/Carousel';
 import { Project } from './data/projects';
-
-const Line = (props: any) => (
-    <div
-        style={{
-            background: 'black',
-            width: '100%',
-            marginBottom: 8,
-            marginTop: 8,
-            height: 1,
-            ...(props.style ?? {}),
-        }}
-        {...props}
-    />
-);
+import Line from './Line';
 
 type ProjectsPageProps = {
     projects: Project[];
@@ -24,15 +11,12 @@ type ProjectsPageProps = {
 function ProjectsPage(props: ProjectsPageProps) {
     return (
         <div
-            id='content'
             style={{
                 display: 'flex',
                 flexFlow: 'column',
-                flex: 2,
+                flex: 1,
                 padding: 24,
-                height: '100%',
                 overflow: 'scroll',
-                boxSizing: 'border-box',
             }}
         >
             {props.projects.map(({ title, images, description, link }) => (

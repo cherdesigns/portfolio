@@ -1,0 +1,82 @@
+import React from 'react';
+import './App.css';
+import Line from './Line';
+
+type ContactPageProps = {};
+
+function ContactPage(props: ContactPageProps) {
+    const fields = [
+        { name: 'name', label: 'Name', placeholder: 'Your name' },
+        { name: 'email', label: 'Email', placeholder: 'Your email address' },
+        { name: 'subject', label: 'Subject', placeholder: 'Email subject' },
+    ];
+
+    return (
+        <form
+            style={{
+                display: 'flex',
+                flexFlow: 'column',
+                alignItems: 'start',
+                flex: 1,
+                padding: 24,
+                overflow: 'scroll',
+            }}
+        >
+            <h1 style={{ marginBottom: 0 }}>Contact</h1>
+            <Line />
+            <div
+                style={{
+                    display: 'flex',
+                    flexFlow: 'column',
+                    width: '100%',
+                }}
+            >
+                {fields.map(({ name, label, placeholder }) => (
+                    <div
+                        key={name}
+                        className='chip'
+                        style={{
+                            display: 'flex',
+                            alignItems: 'start',
+                            flexFlow: 'row',
+                            marginBottom: 8,
+                            width: 'fit-content',
+                        }}
+                    >
+                        <label htmlFor={name} style={{ marginRight: 16, width: 64 }}>
+                            {label}
+                        </label>
+                        <input name={name} placeholder={placeholder} />
+                    </div>
+                ))}
+                <div
+                    className='chip'
+                    style={{
+                        display: 'flex',
+                        alignItems: 'start',
+                        flexFlow: 'row',
+                        marginBottom: 8,
+                    }}
+                >
+                    <label htmlFor='name' style={{ marginRight: 16, width: 64 }}>
+                        Message
+                    </label>
+                    <textarea name='message' placeholder='Email message' style={{ maxHeight: 260, width: '100%' }} />
+                </div>
+                <input
+                    type='submit'
+                    value='Submit'
+                    className='primary-button'
+                    style={{
+                        display: 'flex',
+                        alignItems: 'start',
+                        flexFlow: 'row',
+                        width: 'fit-content',
+                    }}
+                />
+            </div>
+        </form>
+    );
+}
+
+export default ContactPage;
