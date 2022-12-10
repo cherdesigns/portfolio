@@ -1,5 +1,3 @@
-import { EMAIL_LINK } from './contact';
-
 // The "About me" section
 
 export const ABOUT_ME: Project = {
@@ -12,7 +10,7 @@ export const ABOUT_ME: Project = {
             alt: 'Cherilyn Tan',
         },
     ],
-    link: EMAIL_LINK,
+    link: '#',
     tags: [],
 };
 

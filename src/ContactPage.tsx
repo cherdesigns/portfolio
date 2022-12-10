@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
+import { FORM_ACTION } from './data/contact';
 import Line from './Line';
+import { handleFormSubmit } from './util/excel-form-submission';
 
 type ContactPageProps = {};
 
@@ -13,6 +15,12 @@ function ContactPage(props: ContactPageProps) {
 
     return (
         <form
+            method='POST'
+            onSubmit={(e) => {
+                e.preventDefault();
+                handleFormSubmit(e.target as HTMLFormElement);
+            }}
+            action={FORM_ACTION}
             style={{
                 display: 'flex',
                 flexFlow: 'column',
