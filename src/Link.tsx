@@ -9,17 +9,20 @@ const Link = (props: any) => {
             target='_blank'
             rel='noreferrer'
             {...props}
-            style={{ textDecoration: 'none', ...(props.style ?? {}) }}
+            style={{ textDecoration: 'none', position: 'relative', ...(props.style ?? {}) }}
             onMouseEnter={() => setActive(true)}
             onMouseLeave={() => setActive(false)}
         >
             {props.children}
-            <ZigZagLine
+            {/* <ZigZagLine
                 active={active}
                 style={{
-                    top: -14,
+                    position: 'absolute',
+                    top: 16,
+                    left: -74,
+                    width: '200%',
                 }}
-            />
+            /> */}
         </a>
     );
 };
