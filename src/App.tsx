@@ -23,7 +23,7 @@ const pages: { [name: string]: PageOption } = {
 
 function App() {
     const [projects, setProjects] = React.useState<Project[]>([ABOUT_ME]);
-    const [pageKey, setPageKey] = React.useState<string>(ContactPage.name);
+    const [pageKey, setPageKey] = React.useState<string>(ProjectsPage.name);
 
     const Page = pages[pageKey].page;
 
