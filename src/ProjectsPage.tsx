@@ -23,7 +23,7 @@ function ProjectsPage(props: ProjectsPageProps) {
                 <div
                     id={`project-${title}`}
                     key={title}
-                    style={{ display: 'flex', flexFlow: 'column', flex: 1, alignItems: 'start' }}
+                    style={{ display: 'flex', flexFlow: 'column', flex: 1, alignItems: 'flex-start' }}
                 >
                     <h1 style={{ marginBottom: 0 }}>{title}</h1>
                     <Line />
@@ -33,10 +33,10 @@ function ProjectsPage(props: ProjectsPageProps) {
                                 display: 'flex',
                                 width: '100%',
                                 justifyContent: 'center',
-                                alignItems: 'start',
+                                alignItems: 'flex-start',
                             }}
                         >
-                            <a href={link} target='_blank'>
+                            <a href={link} target='_blank' rel='noreferrer'>
                                 <img
                                     src={images[0].src}
                                     alt={images[0].alt}
@@ -48,7 +48,7 @@ function ProjectsPage(props: ProjectsPageProps) {
                         <Carousel style={{ width: '100%' }} variant='dark'>
                             {images.map(({ src, alt }) => (
                                 <Carousel.Item key={src}>
-                                    <a href={link} target='_blank'>
+                                    <a href={link} target='_blank' rel='noreferrer'>
                                         <img src={src} alt={alt} style={{ marginBottom: 16, maxWidth: '100%' }} />
                                     </a>
                                 </Carousel.Item>

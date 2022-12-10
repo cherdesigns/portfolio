@@ -29,7 +29,7 @@ function CustomNavbar(props: CustomNavbarProps) {
     };
 
     return (
-        <Navbar id='nav' expand='sm' style={{ alignItems: 'start', padding: 0 }}>
+        <Navbar id='nav' expand='sm' style={{ alignItems: 'flex-start', padding: 0 }}>
             <Navbar.Toggle
                 aria-controls={`offcanvasNavbar-expand-sm`}
                 style={{ margin: 24, marginBottom: 0, justifySelf: 'end' }}
@@ -39,7 +39,7 @@ function CustomNavbar(props: CustomNavbarProps) {
             <Navbar.Offcanvas
                 id={`offcanvasNavbar-expand-sm`}
                 aria-labelledby={`offcanvasNavbarLabel-expand-sm`}
-                placement='start'
+                placement='flex-start'
                 style={{ padding: 24, alignItems: 'end' }}
                 show={show}
             >
@@ -102,7 +102,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                     <h4>Tags</h4>
                     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                         {TAGS.map((tag) => (
-                            <a
+                            <button
                                 key={tag}
                                 className={'primary-button' + (tags.includes(tag) ? '-selected' : '')}
                                 style={{
@@ -123,7 +123,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                                 }}
                             >
                                 {tag}
-                            </a>
+                            </button>
                         ))}
                     </div>
                 </Nav>

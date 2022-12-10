@@ -45,7 +45,7 @@
     display: flex;
     flex: 1;
     flex-flow: column;
-    align-items: start;
+    align-items: flex-start;
     box-sizing: border-box;
 }
 

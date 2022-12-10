@@ -7,6 +7,7 @@ const Link = (props: any) => {
     return (
         <a
             target='_blank'
+            rel='noreferrer'
             {...props}
             style={{ textDecoration: 'none', ...(props.style ?? {}) }}
             onMouseEnter={() => setActive(true)}

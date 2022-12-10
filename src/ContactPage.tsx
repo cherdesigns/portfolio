@@ -16,7 +16,7 @@ function ContactPage(props: ContactPageProps) {
             style={{
                 display: 'flex',
                 flexFlow: 'column',
-                alignItems: 'start',
+                alignItems: 'flex-start',
                 flex: 1,
                 padding: 24,
                 overflow: 'scroll',
@@ -37,7 +37,7 @@ function ContactPage(props: ContactPageProps) {
                         className='chip'
                         style={{
                             display: 'flex',
-                            alignItems: 'start',
+                            alignItems: 'flex-start',
                             flexFlow: 'row',
                             marginBottom: 8,
                             width: 'fit-content',
@@ -53,7 +53,7 @@ function ContactPage(props: ContactPageProps) {
                     className='chip'
                     style={{
                         display: 'flex',
-                        alignItems: 'start',
+                        alignItems: 'flex-start',
                         flexFlow: 'row',
                         marginBottom: 8,
                     }}
@@ -69,7 +69,7 @@ function ContactPage(props: ContactPageProps) {
                     className='primary-button'
                     style={{
                         display: 'flex',
-                        alignItems: 'start',
+                        alignItems: 'flex-start',
                         flexFlow: 'row',
                         width: 'fit-content',
                     }}
