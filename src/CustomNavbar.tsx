@@ -78,6 +78,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                             <h2 key={c.title} style={{ margin: 0 }}>
                                 <li
                                     className={
+                                        tags.length === 0 &&
                                         new Set([
                                             ...c.projects.map(({ id }) => id),
                                             ...props.selectedProjects.map(({ id }) => id),
