@@ -66,7 +66,7 @@ const PortfolioDataTypes: { [key in PortfolioDataType]: { [mapping: string]: any
     },
     [PortfolioDataType.CATEGORIES]: {
         Name: 'title',
-        Projects: 'projects',
+        'Project IDs': 'projects',
     },
     [PortfolioDataType.PROJECTS]: {
         ID: 'id',
