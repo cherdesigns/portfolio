@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import { ABOUT_ME, CATEGORIES, Project, TAGS, TAGS_TO_PROJECTS } from './data/projects';
-import { SOCIALS } from './data/contact';
+import { ABOUT_ME } from './data/projects';
+import { MediaLink, Project, Category } from './proxy/PortfolioDataSheetParser';
 import { CloseButton, Nav, Navbar } from 'react-bootstrap';
 import ContactPage from './ContactPage';
 import ProjectsPage from './ProjectsPage';
@@ -9,7 +9,11 @@ import Line from './Line';
 import Link from './Link';
 
 type CustomNavbarProps = {
+    socials: MediaLink[];
+    categories: Category[];
     projects: Project[];
+    tags: string[];
+    tagsToProjects: { [tag: string]: Project[] };
     setProjects: (projects: Project[]) => void;
     navigate: (pageName: string) => void;
 };
@@ -24,6 +28,7 @@ function CustomNavbar(props: CustomNavbarProps) {
     };
 
     const navigateToContact = () => {
+        setTags([]);
         props.setProjects([]);
         props.navigate(ContactPage.name);
     };
@@ -57,6 +62,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                             transition: '.2s color',
                         }}
                         onClick={() => {
+                            setTags([]);
                             setProjects([ABOUT_ME]);
                             setShow(false);
                         }}
@@ -64,7 +70,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                         About me
                     </h2>
                     <ol type='1' style={{ margin: 0 }}>
-                        {CATEGORIES.map((c) => (
+                        {props.categories.map((c) => (
                             <h2 key={c.title} style={{ margin: 0 }}>
                                 <li
                                     className={c.projects === props.projects ? 'primary' : ''}
@@ -74,6 +80,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                                         transition: '.2s color',
                                     }}
                                     onClick={() => {
+                                        setTags([]);
                                         setProjects(c.projects);
                                         setShow(false);
                                     }}
@@ -90,7 +97,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                                 <li style={{ textAlign: 'left' }}>Contact</li>
                             </Link>
                         </h2>
-                        {SOCIALS.map(({ name, link }) => (
+                        {props.socials.map(({ name, link }) => (
                             <h2 key={name} style={{ margin: 0 }}>
                                 <Link href={link}>
                                     <li style={{ textAlign: 'left' }}>{name}</li>
@@ -101,7 +108,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                     <Line />
                     <h4>Tags</h4>
                     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                        {TAGS.map((tag) => (
+                        {props.tags.map((tag) => (
                             <button
                                 key={tag}
                                 className={'primary-button' + (tags.includes(tag) ? '-selected' : '')}
@@ -115,7 +122,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                                     const nextTags =
                                         i === -1 ? [...tags, tag] : tags.slice(0, i).concat(tags.slice(i + 1));
                                     const nextProjects = Array.from(
-                                        new Set(nextTags.map((nextTag) => TAGS_TO_PROJECTS[nextTag]).flat())
+                                        new Set(nextTags.map((nextTag) => props.tagsToProjects[nextTag]).flat())
                                     );
 
                                     setTags(nextTags);

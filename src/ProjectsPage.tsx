@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Carousel from 'react-bootstrap/Carousel';
-import { Project } from './data/projects';
+import { Project } from './proxy/PortfolioDataSheetParser';
 import Line from './Line';
 
 type ProjectsPageProps = {
