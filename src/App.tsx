@@ -25,6 +25,7 @@ const pages: { [name: string]: PageOption } = {
 };
 
 function App() {
+    const [error, setError] = React.useState<any>(null);
     const [projects, setProjects] = React.useState<Project[]>([ABOUT_ME]);
     const [pageKey, setPageKey] = React.useState<string>(ProjectsPage.name);
     const [portfolioData, setPortfolioData] = React.useState<PortfolioData | null>(null);
@@ -33,20 +34,40 @@ function App() {
     const Page = pages[pageKey].page;
 
     React.useEffect(() => {
-        const sheets = new GoogleSheetsProxy(
-            'ya29.a0AeTM1icAvqwHk9aoAPXge1EXE829GAo4cEcpH41vVBgBThtb95qe8GxGoC9Jt9nOlIM5tyb3KR3WZxMSfg02S8hRxk3b8HcojRbcvLl2zH8ayZF3wWOtbOZZqS_IyN31P8vTmvyuR4QyUEHYncfIyuM2FP4qaCgYKAcYSARMSFQHWtWOmgMISlCrzLFcKOYhTCbEf_Q0163'
-        );
+        const sheets = new GoogleSheetsProxy('');
 
-        sheets.getSheet('1KqnU47HQpSNXWFefUiArD-eF_Cz_jrZXxkHxZh4ppSM', 'Data').then((d) => {
-            const parsedPortfolioData = PortfolioDataSheetParser.parse(d);
-            setPortfolioData(parsedPortfolioData);
-            setTagData(PortfolioDataSheetParser.getTagsFromProjects(parsedPortfolioData[PortfolioDataType.PROJECTS]));
-        });
+        sheets
+            .getSheet('1KqnU47HQpSNXWFefUiArD-eF_Cz_jrZXxkHxZh4ppSM', 'Data')
+            .then((res) => {
+                if (res.error) return setError(`${res.error.message}`);
+
+                const parsedPortfolioData = PortfolioDataSheetParser.parse(res);
+                setPortfolioData(parsedPortfolioData);
+                setTagData(
+                    PortfolioDataSheetParser.getTagsFromProjects(parsedPortfolioData[PortfolioDataType.PROJECTS])
+                );
+            })
+            .catch((e) => setError(`${e}`));
     }, []);
 
-    if (!portfolioData || !tagData) return null;
+    if (error)
+        return (
+            <div
+                className='App'
+                style={{
+                    display: 'flex',
+                    height: '100vh',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexFlow: 'column',
+                }}
+            >
+                <p>Sorry, there was an error loading this site's data. Here's the specific problem:</p>
+                <p>{error}</p>
+            </div>
+        );
 
-    console.log(portfolioData);
+    if (!portfolioData || !tagData) return null;
 
     return (
         <div className='App' style={{ display: 'flex', height: '100vh' }}>
