@@ -6,6 +6,7 @@ import ContactPage from './ContactPage';
 import CustomNavbar from './CustomNavbar';
 import GoogleSheetsProxy from './proxy/GoogleSheetsProxy';
 import PortfolioDataSheetParser from './proxy/PortfolioDataSheetParser';
+import FirebaseProxy from './proxy/FirebaseProxy';
 
 type PageOption = {
     page: (props: any) => JSX.Element;
@@ -33,24 +34,32 @@ function App() {
     const Page = pages[pageKey].page;
 
     React.useEffect(() => {
-        const sheets = new GoogleSheetsProxy(
-            // Auth for a throwaway Google account
-            'ya29.a0AeTM1iemTwSzhCMxRJgXphWTlCCDw8Lo2LIIZY6Qge7Tg5Q4eOVsJrIyWtnqMqm3qG6jMEXEvfoK1D9uatiiLC-J15FHiP0afMmfZ6vA7rPBnAU28u3av9Axod8P_BosDNKpLfTfzdm96iqs8T2jHnRhzd7FaCgYKAbMSARASFQHWtWOmJqraSSqTdgkDrOR8p7f_2g0163'
-        );
+        const fb = new FirebaseProxy();
 
-        sheets
-            .getSheet('1chgU4UE0_KH90rIDO5i-qZoExTPvqNuyIzUG1E1mH9w', 'Data')
-            .then((res) => {
-                if (res.error) return setError(`${res.error.message}`);
+        fb.init((user) => {
+            if (!user) return setError('Failed to initialize a connection to site datastore.');
 
-                const parsedPortfolioData = PortfolioDataSheetParser.parse(res);
-                setPortfolioData(parsedPortfolioData);
-                setTagData(
-                    PortfolioDataSheetParser.getTagsFromProjects(parsedPortfolioData[PortfolioDataType.PROJECTS])
-                );
-                setSelectedProjects(parsedPortfolioData[PortfolioDataType.ABOUT_ME]);
-            })
-            .catch((e) => setError(`${e}`));
+            user.getIdToken()
+                .then((token) => {
+                    if (!token) return setError(`Failed to connect to site datastore`);
+
+                    return new GoogleSheetsProxy(token).getSheet(
+                        '1chgU4UE0_KH90rIDO5i-qZoExTPvqNuyIzUG1E1mH9w',
+                        'Data'
+                    );
+                })
+                .then((res) => {
+                    if (res.error) return setError(`${res.error.message}`);
+
+                    const parsedPortfolioData = PortfolioDataSheetParser.parse(res);
+                    setPortfolioData(parsedPortfolioData);
+                    setTagData(
+                        PortfolioDataSheetParser.getTagsFromProjects(parsedPortfolioData[PortfolioDataType.PROJECTS])
+                    );
+                    setSelectedProjects(parsedPortfolioData[PortfolioDataType.ABOUT_ME]);
+                })
+                .catch((e) => setError(`${e}`));
+        });
     }, []);
 
     if (error)
@@ -65,8 +74,14 @@ function App() {
                     flexFlow: 'column',
                 }}
             >
-                <p>Sorry, there was an error loading this site's data. Here's the specific problem:</p>
-                <p>{error}</p>
+                {error.includes('Request had invalid authentication credentials') ? (
+                    <p>Site is currently under construction - please check back again later!</p>
+                ) : (
+                    <>
+                        <p>Sorry, there was an error loading this site's data. Here's the specific problem:</p>
+                        <p>{error}</p>
+                    </>
+                )}
             </div>
         );
 
