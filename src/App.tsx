@@ -45,6 +45,7 @@ function App() {
     const Page = pages[pageKey].page;
 
     const loadData = () => {
+        console.log('Using token ' + providedToken);
         new GoogleSheetsProxy(providedToken)
             .getSheet('1chgU4UE0_KH90rIDO5i-qZoExTPvqNuyIzUG1E1mH9w', 'Data')
             .then((res) => {
@@ -58,6 +59,8 @@ function App() {
                 setSelectedProjects(parsedPortfolioData[PortfolioDataType.ABOUT_ME]);
             })
             .catch((e) => {
+                console.error(e);
+
                 if (isOAuthError(e.message)) {
                     setNeedsNewToken(true);
                 } else {
@@ -106,7 +109,6 @@ function App() {
                 }}
             >
                 <p>
-                    {' '}
                     The auth token to Google Sheets expired, or an invalid one was provided. For a temp token, please do
                     the following:
                 </p>
