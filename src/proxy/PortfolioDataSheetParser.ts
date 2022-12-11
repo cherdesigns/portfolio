@@ -125,7 +125,7 @@ class PortfolioDataSheetParser {
 
                         if (!dataType) {
                             throw new Error(
-                                `No internal data type found for "${dataCategory}". Options are: ${Object.keys(
+                                `No internal data type found for "${dataCategory}". Is the type misspelled? Options are: ${Object.keys(
                                     PortfolioDataTypes
                                 ).join(', ')}.`
                             );
@@ -135,7 +135,7 @@ class PortfolioDataSheetParser {
 
                         if (!fieldMapping) {
                             throw new Error(
-                                `No internal field found "${field}" in "${dataCategory}". Options are: ${Object.keys(
+                                `No internal field found "${field}" in "${dataCategory}". Is the field misspelled? Options are: ${Object.keys(
                                     dataType
                                 ).join(', ')}.`
                             );
@@ -170,7 +170,9 @@ class PortfolioDataSheetParser {
                 const image = res.Images.find(({ id }) => imageId === id);
 
                 if (!image) {
-                    throw new Error(`Corresponding image not found for image "${imageId}" in project "${project}"`);
+                    throw new Error(
+                        `Corresponding image not found for image "${imageId}" in project "${project}". Is the image's ID correct?`
+                    );
                 }
 
                 return image;
@@ -185,7 +187,7 @@ class PortfolioDataSheetParser {
 
                 if (!project) {
                     throw new Error(
-                        `Corresponding project not found for project "${projectId}" in category "${category.title}"`
+                        `Corresponding project not found for project "${projectId}" in category "${category.title}. Is the project's ID correct?"`
                     );
                 }
 
