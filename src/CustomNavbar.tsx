@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import { ABOUT_ME } from './data/projects';
 import { MediaLink, Project, Category } from './proxy/PortfolioDataSheetParser';
 import { CloseButton, Nav, Navbar } from 'react-bootstrap';
 import ContactPage from './ContactPage';
@@ -9,12 +8,13 @@ import Line from './Line';
 import Link from './Link';
 
 type CustomNavbarProps = {
+    aboutMe: Project[];
     socials: MediaLink[];
     categories: Category[];
-    projects: Project[];
+    selectedProjects: Project[];
     tags: string[];
     tagsToProjects: { [tag: string]: Project[] };
-    setProjects: (projects: Project[]) => void;
+    setSelectedProjects: (projects: Project[]) => void;
     navigate: (pageName: string) => void;
 };
 
@@ -22,14 +22,14 @@ function CustomNavbar(props: CustomNavbarProps) {
     const [tags, setTags] = React.useState<string[]>([]);
     const [show, setShow] = React.useState<boolean>(false);
 
-    const setProjects = (projects: Project[]) => {
-        props.setProjects(projects);
+    const setSelectedProjects = (projects: Project[]) => {
+        props.setSelectedProjects(projects);
         props.navigate(ProjectsPage.name);
     };
 
     const navigateToContact = () => {
         setTags([]);
-        props.setProjects([]);
+        props.setSelectedProjects([]);
         props.navigate(ContactPage.name);
     };
 
@@ -53,7 +53,11 @@ function CustomNavbar(props: CustomNavbarProps) {
                     <h1 style={{ marginBottom: 0 }}>Cherilyn Tan</h1>
                     <Line />
                     <h2
-                        className={ABOUT_ME === props.projects[0] && props.projects.length === 1 ? 'primary' : ''}
+                        className={
+                            props.aboutMe === props.selectedProjects && props.selectedProjects.length === 1
+                                ? 'primary'
+                                : ''
+                        }
                         style={{
                             marginBottom: 0,
                             cursor: 'pointer',
@@ -63,7 +67,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                         }}
                         onClick={() => {
                             setTags([]);
-                            setProjects([ABOUT_ME]);
+                            setSelectedProjects(props.aboutMe);
                             setShow(false);
                         }}
                     >
@@ -73,7 +77,14 @@ function CustomNavbar(props: CustomNavbarProps) {
                         {props.categories.map((c) => (
                             <h2 key={c.title} style={{ margin: 0 }}>
                                 <li
-                                    className={c.projects === props.projects ? 'primary' : ''}
+                                    className={
+                                        new Set([
+                                            ...c.projects.map(({ id }) => id),
+                                            ...props.selectedProjects.map(({ id }) => id),
+                                        ]).size === c.projects.length
+                                            ? 'primary'
+                                            : ''
+                                    }
                                     style={{
                                         cursor: 'pointer',
                                         textAlign: 'left',
@@ -81,7 +92,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                                     }}
                                     onClick={() => {
                                         setTags([]);
-                                        setProjects(c.projects);
+                                        setSelectedProjects(c.projects);
                                         setShow(false);
                                     }}
                                 >
@@ -126,7 +137,7 @@ function CustomNavbar(props: CustomNavbarProps) {
                                     );
 
                                     setTags(nextTags);
-                                    setProjects(nextProjects.length > 0 ? nextProjects : [ABOUT_ME]);
+                                    setSelectedProjects(nextProjects.length > 0 ? nextProjects : props.aboutMe);
                                 }}
                             >
                                 {tag}

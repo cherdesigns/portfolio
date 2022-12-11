@@ -54,6 +54,7 @@ type DatastoreProject = {
 
 export enum PortfolioDataType {
     EMPTY = '',
+    ABOUT_ME = 'About me',
     SOCIAL_MEDIA = 'Social media',
     CATEGORIES = 'Project categories',
     PROJECTS = 'Projects',
@@ -62,6 +63,13 @@ export enum PortfolioDataType {
 
 const PortfolioDataTypes: { [key in PortfolioDataType]: { [mapping: string]: any } } = {
     [PortfolioDataType.EMPTY]: {},
+    [PortfolioDataType.ABOUT_ME]: {
+        ID: 'id',
+        Title: 'title',
+        Description: 'description',
+        'Image IDs': 'images',
+        Link: 'link',
+    },
     [PortfolioDataType.SOCIAL_MEDIA]: {
         Name: 'name',
         Link: 'link',
@@ -87,24 +95,29 @@ const PortfolioDataTypes: { [key in PortfolioDataType]: { [mapping: string]: any
 };
 
 export type PortfolioData = {
+    [PortfolioDataType.ABOUT_ME]: Project[];
     [PortfolioDataType.SOCIAL_MEDIA]: MediaLink[];
     [PortfolioDataType.CATEGORIES]: Category[];
     [PortfolioDataType.PROJECTS]: Project[];
     [PortfolioDataType.IMAGES]: Image[];
 };
 
+type DatastorePortfolioData = {
+    [PortfolioDataType.EMPTY]: any[];
+    [PortfolioDataType.ABOUT_ME]: DatastoreProject[];
+    [PortfolioDataType.SOCIAL_MEDIA]: DatastoreMediaLink[];
+    [PortfolioDataType.CATEGORIES]: DatastoreCategory[];
+    [PortfolioDataType.PROJECTS]: DatastoreProject[];
+    [PortfolioDataType.IMAGES]: DatastoreImage[];
+};
+
 export type TagData = { tags: string[]; tagsToProjects: { [tag: string]: Project[] } };
 
 class PortfolioDataSheetParser {
     static parse(sheet: GoogleSheet): PortfolioData {
-        const res: {
-            [PortfolioDataType.EMPTY]: any[];
-            [PortfolioDataType.SOCIAL_MEDIA]: DatastoreMediaLink[];
-            [PortfolioDataType.CATEGORIES]: DatastoreCategory[];
-            [PortfolioDataType.PROJECTS]: DatastoreProject[];
-            [PortfolioDataType.IMAGES]: DatastoreImage[];
-        } = {
+        const res: DatastorePortfolioData = {
             [PortfolioDataType.EMPTY]: [],
+            [PortfolioDataType.ABOUT_ME]: [],
             [PortfolioDataType.SOCIAL_MEDIA]: [],
             [PortfolioDataType.CATEGORIES]: [],
             [PortfolioDataType.PROJECTS]: [],
@@ -165,13 +178,29 @@ class PortfolioDataSheetParser {
             }
         }
 
+        const processedAboutMe = res['About me'].map((aboutMe) => {
+            const images: Image[] = aboutMe.images.map((imageId) => {
+                const image = res.Images.find(({ id }) => imageId === id);
+
+                if (!image) {
+                    throw new Error(
+                        `Corresponding image not found for image "${imageId}" in About Me section "${aboutMe.title}". Is the image's ID correct?`
+                    );
+                }
+
+                return image;
+            });
+
+            return { ...aboutMe, images };
+        });
+
         const processedProjects = res.Projects.map((project) => {
             const images: Image[] = project.images.map((imageId) => {
                 const image = res.Images.find(({ id }) => imageId === id);
 
                 if (!image) {
                     throw new Error(
-                        `Corresponding image not found for image "${imageId}" in project "${project}". Is the image's ID correct?`
+                        `Corresponding image not found for image "${imageId}" in project "${project.title}". Is the image's ID correct?`
                     );
                 }
 
@@ -187,7 +216,7 @@ class PortfolioDataSheetParser {
 
                 if (!project) {
                     throw new Error(
-                        `Corresponding project not found for project "${projectId}" in category "${category.title}. Is the project's ID correct?"`
+                        `Corresponding project not found for project "${projectId}" in category "${category.title}". Is the project's ID correct?"`
                     );
                 }
 
@@ -198,6 +227,7 @@ class PortfolioDataSheetParser {
         });
 
         const portfolioData: PortfolioData = {
+            [PortfolioDataType.ABOUT_ME]: processedAboutMe,
             [PortfolioDataType.SOCIAL_MEDIA]: res['Social media'],
             [PortfolioDataType.CATEGORIES]: processedCategories,
             [PortfolioDataType.PROJECTS]: processedProjects,

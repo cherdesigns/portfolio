@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import { ABOUT_ME } from './data/projects';
 import { PortfolioData, PortfolioDataType, Project, TagData } from './proxy/PortfolioDataSheetParser';
 import ProjectsPage from './ProjectsPage';
 import ContactPage from './ContactPage';
@@ -26,7 +25,7 @@ const pages: { [name: string]: PageOption } = {
 
 function App() {
     const [error, setError] = React.useState<any>(null);
-    const [projects, setProjects] = React.useState<Project[]>([ABOUT_ME]);
+    const [selectedProjects, setSelectedProjects] = React.useState<Project[]>([]);
     const [pageKey, setPageKey] = React.useState<string>(ProjectsPage.name);
     const [portfolioData, setPortfolioData] = React.useState<PortfolioData | null>(null);
     const [tagData, setTagData] = React.useState<TagData | null>(null);
@@ -36,7 +35,7 @@ function App() {
     React.useEffect(() => {
         const sheets = new GoogleSheetsProxy(
             // Auth for a throwaway Google account
-            'ya29.a0AeTM1ieLV3Xf_eeKgOSDgPXr5fYbSmC63-sTYyg4GDtPN_0RRWoATY_AiKryxPLS30vblmsKg0Bf1UqrSwYAqyx7vweHkjm7D1x6JpJIrVW_n9uiJsTZ-Ekaw5yIAnjVCwPY2uFd4OmQc8_gjzW9LK3AxccAaCgYKAccSARASFQHWtWOm3IFeLbolvgu9TCWjGu9g3A0163'
+            'ya29.a0AeTM1iemTwSzhCMxRJgXphWTlCCDw8Lo2LIIZY6Qge7Tg5Q4eOVsJrIyWtnqMqm3qG6jMEXEvfoK1D9uatiiLC-J15FHiP0afMmfZ6vA7rPBnAU28u3av9Axod8P_BosDNKpLfTfzdm96iqs8T2jHnRhzd7FaCgYKAbMSARASFQHWtWOmJqraSSqTdgkDrOR8p7f_2g0163'
         );
 
         sheets
@@ -49,6 +48,7 @@ function App() {
                 setTagData(
                     PortfolioDataSheetParser.getTagsFromProjects(parsedPortfolioData[PortfolioDataType.PROJECTS])
                 );
+                setSelectedProjects(parsedPortfolioData[PortfolioDataType.ABOUT_ME]);
             })
             .catch((e) => setError(`${e}`));
     }, []);
@@ -75,12 +75,13 @@ function App() {
     return (
         <div className='App' style={{ display: 'flex', height: '100vh' }}>
             <CustomNavbar
+                aboutMe={portfolioData[PortfolioDataType.ABOUT_ME]}
                 socials={portfolioData[PortfolioDataType.SOCIAL_MEDIA]}
                 categories={portfolioData[PortfolioDataType.CATEGORIES]}
-                projects={portfolioData[PortfolioDataType.PROJECTS]}
+                selectedProjects={selectedProjects}
                 tags={tagData.tags}
                 tagsToProjects={tagData.tagsToProjects}
-                setProjects={setProjects}
+                setSelectedProjects={setSelectedProjects}
                 navigate={setPageKey}
             />
             <div
@@ -90,7 +91,7 @@ function App() {
                     width: '100%',
                 }}
             >
-                <Page {...pages[pageKey].getProps(projects, setProjects)} />
+                <Page {...pages[pageKey].getProps(selectedProjects, setSelectedProjects)} />
             </div>
         </div>
     );
