@@ -15,6 +15,7 @@ export type Project = {
 };
 
 export type Category = {
+    link: string;
     title: string;
     projects: Project[];
 };
@@ -26,6 +27,7 @@ export type Image = {
 };
 
 type DatastoreCategory = {
+    link: string;
     title: string;
     projects: string[];
 };
@@ -67,6 +69,7 @@ const PortfolioDataTypes: { [key in PortfolioDataType]: { [mapping: string]: any
     [PortfolioDataType.CATEGORIES]: {
         Name: 'title',
         'Project IDs': 'projects',
+        Link: 'link',
     },
     [PortfolioDataType.PROJECTS]: {
         ID: 'id',
@@ -117,21 +120,45 @@ class PortfolioDataSheetParser {
                     dataCategoryFields = row.slice(1);
                 } else {
                     const values = row.slice(1);
-                    const item = dataCategoryFields.reduce(
-                        (acc, field, i) =>
-                            PortfolioDataTypes[dataCategory][field]
-                                ? {
-                                      ...acc,
-                                      [PortfolioDataTypes[dataCategory][field]]:
-                                          PortfolioDataTypes[dataCategory][field] === 'images' ||
-                                          PortfolioDataTypes[dataCategory][field] === 'projects' ||
-                                          PortfolioDataTypes[dataCategory][field] === 'tags'
-                                              ? values[i].split(',')
-                                              : values[i],
-                                  }
-                                : acc,
-                        {}
-                    );
+                    const item = dataCategoryFields.reduce((acc, field, i) => {
+                        const dataType = PortfolioDataTypes[dataCategory];
+
+                        if (!dataType) {
+                            throw new Error(
+                                `No internal data type found for "${dataCategory}". Options are: ${Object.keys(
+                                    PortfolioDataTypes
+                                ).join(', ')}.`
+                            );
+                        }
+
+                        const fieldMapping = dataType[field];
+
+                        if (!fieldMapping) {
+                            throw new Error(
+                                `No internal field found "${field}" in "${dataCategory}". Options are: ${Object.keys(
+                                    dataType
+                                ).join(', ')}.`
+                            );
+                        }
+
+                        const value =
+                            fieldMapping === 'images' || fieldMapping === 'projects' || fieldMapping === 'tags'
+                                ? values[i].split(',')
+                                : values[i];
+
+                        if (!value) {
+                            throw new Error(
+                                `No value found for "${field}" in "${dataCategory}". Is there a value at column ${
+                                    i + 1
+                                }? Values are: ${values.join(', ')}.`
+                            );
+                        }
+
+                        return {
+                            ...acc,
+                            [fieldMapping]: value,
+                        };
+                    }, {});
 
                     res[dataCategory].push(item);
                 }
@@ -143,7 +170,7 @@ class PortfolioDataSheetParser {
                 const image = res.Images.find(({ id }) => imageId === id);
 
                 if (!image) {
-                    throw new Error(`Image not found for project image ${imageId}`);
+                    throw new Error(`Corresponding image not found for image "${imageId}" in project "${project}"`);
                 }
 
                 return image;
@@ -157,7 +184,9 @@ class PortfolioDataSheetParser {
                 const project = processedProjects.find(({ id }) => projectId === id);
 
                 if (!project) {
-                    throw new Error(`Project not found for category project ${projectId}`);
+                    throw new Error(
+                        `Corresponding project not found for project "${projectId}" in category "${category.title}"`
+                    );
                 }
 
                 return project;
