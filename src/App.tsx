@@ -24,12 +24,17 @@ const pages: { [name: string]: PageOption } = {
 };
 
 const isOAuthError = (error: string) => {
-    return error.includes('Request had invalid authentication credentials');
+    return (
+        error.includes('Request had invalid authentication credentials') ||
+        error.includes('The request is missing a valid API key.')
+    );
 };
 
 function App() {
-    const [needsNewToken, setNeedsNewToken] = React.useState<boolean>(true);
-    const [providedToken, setProvidedToken] = React.useState<string>('');
+    const [needsNewToken, setNeedsNewToken] = React.useState<boolean>(false);
+    const [providedToken, setProvidedToken] = React.useState<string>(
+        localStorage.getItem('portfolio-google-auth-token') ?? ''
+    );
 
     const [error, setError] = React.useState<any>(null);
     const [selectedProjects, setSelectedProjects] = React.useState<Project[]>([]);
@@ -60,6 +65,10 @@ function App() {
                 }
             });
     };
+
+    React.useEffect(() => {
+        loadData();
+    }, []);
 
     if (error)
         return (
@@ -128,6 +137,7 @@ function App() {
                         onSubmit={(e) => {
                             e.preventDefault();
                             setNeedsNewToken(false);
+                            localStorage.setItem('portfolio-google-auth-token', providedToken);
                             loadData();
                         }}
                     >
