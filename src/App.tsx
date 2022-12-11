@@ -34,10 +34,13 @@ function App() {
     const Page = pages[pageKey].page;
 
     React.useEffect(() => {
-        const sheets = new GoogleSheetsProxy('');
+        const sheets = new GoogleSheetsProxy(
+            // Auth for a throwaway Google account
+            'ya29.a0AeTM1ieLV3Xf_eeKgOSDgPXr5fYbSmC63-sTYyg4GDtPN_0RRWoATY_AiKryxPLS30vblmsKg0Bf1UqrSwYAqyx7vweHkjm7D1x6JpJIrVW_n9uiJsTZ-Ekaw5yIAnjVCwPY2uFd4OmQc8_gjzW9LK3AxccAaCgYKAccSARASFQHWtWOm3IFeLbolvgu9TCWjGu9g3A0163'
+        );
 
         sheets
-            .getSheet('1KqnU47HQpSNXWFefUiArD-eF_Cz_jrZXxkHxZh4ppSM', 'Data')
+            .getSheet('1chgU4UE0_KH90rIDO5i-qZoExTPvqNuyIzUG1E1mH9w', 'Data')
             .then((res) => {
                 if (res.error) return setError(`${res.error.message}`);
 
