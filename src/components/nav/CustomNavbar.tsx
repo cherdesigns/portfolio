@@ -1,11 +1,10 @@
 import React from 'react';
-import './App.css';
-import { MediaLink, Project, Category } from './proxy/PortfolioDataSheetParser';
+import { MediaLink, Project, Category } from '../../proxy/PortfolioDataSheetParser';
 import { CloseButton, Nav, Navbar } from 'react-bootstrap';
-import ContactPage from './ContactPage';
-import ProjectsPage from './ProjectsPage';
-import Line from './Line';
-import Link from './Link';
+import ContactPage from '../page/ContactPage';
+import ProjectsPage from '../page/ProjectsPage';
+import Line from '../common/Line';
+import Link from '../common/Link';
 
 type CustomNavbarProps = {
     aboutMe: Project[];

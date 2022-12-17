@@ -1,11 +1,11 @@
-import React from 'react';
-import './App.css';
-import { PortfolioData, PortfolioDataType, Project, TagData } from './proxy/PortfolioDataSheetParser';
-import ProjectsPage from './ProjectsPage';
-import ContactPage from './ContactPage';
-import CustomNavbar from './CustomNavbar';
-import GoogleSheetsProxy from './proxy/GoogleSheetsProxy';
-import PortfolioDataSheetParser from './proxy/PortfolioDataSheetParser';
+import React, { useCallback } from 'react';
+import '../assets/css/App.css';
+import { PortfolioData, PortfolioDataType, Project, TagData } from '../proxy/PortfolioDataSheetParser';
+import ProjectsPage from '../components/page/ProjectsPage';
+import ContactPage from '../components/page/ContactPage';
+import CustomNavbar from '../components/nav/CustomNavbar';
+import GoogleSheetsProxy from '../proxy/GoogleSheetsProxy';
+import PortfolioDataSheetParser from '../proxy/PortfolioDataSheetParser';
 
 type PageOption = {
     page: (props: any) => JSX.Element;
@@ -44,7 +44,7 @@ function App() {
 
     const Page = pages[pageKey].page;
 
-    const loadData = () => {
+    const loadData = useCallback(() => {
         console.log('Using token ' + providedToken);
         new GoogleSheetsProxy(providedToken)
             .getSheet('1chgU4UE0_KH90rIDO5i-qZoExTPvqNuyIzUG1E1mH9w', 'Data')
@@ -67,11 +67,9 @@ function App() {
                     setError(`${typeof e === 'string' ? e : e.message}`);
                 }
             });
-    };
+    }, [providedToken]);
 
-    React.useEffect(() => {
-        loadData();
-    }, []);
+    React.useEffect(loadData, [loadData]);
 
     if (error)
         return (

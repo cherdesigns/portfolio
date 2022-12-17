@@ -1,8 +1,7 @@
 import React from 'react';
-import './App.css';
-import { FORM_ACTION } from './data/contact';
-import Line from './Line';
-import { handleFormSubmit } from './util/excel-form-submission';
+import { FORM_ACTION } from '../../data/contact';
+import Line from '../common/Line';
+import { handleFormSubmit } from '../../util/excel-form-submission';
 
 type ContactPageProps = {};
 

@@ -61,7 +61,7 @@ export enum PortfolioDataType {
     IMAGES = 'Images',
 }
 
-const PortfolioDataTypes: { [key in PortfolioDataType]: { [mapping: string]: any } } = {
+const PortfolioDataTypes: { [key in PortfolioDataType]: { [mapping: string]: string } } = {
     [PortfolioDataType.EMPTY]: {},
     [PortfolioDataType.ABOUT_ME]: {
         ID: 'id',
@@ -133,7 +133,17 @@ class PortfolioDataSheetParser {
                     dataCategoryFields = row.slice(1);
                 } else {
                     const values = row.slice(1);
-                    const item = dataCategoryFields.reduce((acc, field, i) => {
+                    const item: { [k: string]: any } = {
+                        [PortfolioDataType.EMPTY]: [],
+                        [PortfolioDataType.ABOUT_ME]: [],
+                        [PortfolioDataType.SOCIAL_MEDIA]: [],
+                        [PortfolioDataType.CATEGORIES]: [],
+                        [PortfolioDataType.PROJECTS]: [],
+                        [PortfolioDataType.IMAGES]: [],
+                    };
+
+                    for (let i = 0; i < dataCategoryFields.length; i++) {
+                        const field = dataCategoryFields[i];
                         const dataType = PortfolioDataTypes[dataCategory];
 
                         if (!dataType) {
@@ -167,11 +177,8 @@ class PortfolioDataSheetParser {
                             );
                         }
 
-                        return {
-                            ...acc,
-                            [fieldMapping]: value,
-                        };
-                    }, {});
+                        item[fieldMapping] = value;
+                    }
 
                     res[dataCategory].push(item);
                 }
