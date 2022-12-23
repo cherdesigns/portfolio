@@ -122,10 +122,10 @@ function App() {
                 >
                     <li style={{ maxWidth: '100%' }}>
                         Follow{' '}
-                        <a href='https://accounts.google.com/signin/oauth/consent?authuser=4&part=AJi8hANd91hsg4YlBym9j3B-8q86SKcMR6v7GZreQqzX-8Mq-LkRBvZVF4sIjYwouegn5Wi0dp9JNeLFS9V-O6ZgY9XzLri4Fi4Ei2074P2m2ppYF-pNWsC72KUlSKIGudHn2pIBVpp9NkZ-SJH4urugaJ-5VJVM80ZF25TTeYngun1gf2HIg6vhZBHqVrI57N0VFFK38CvHN0wXbBW_O-ogI3Z8ojjvXvNIj71-I8OF7EfWZYSueQ9IbGzuIpuSvAS1RblGZdzSJI4d_-3UBu34ZltaFuk7zjm9JrX1fK8MHwy6pCEnp2MefYYrvnu63uNX05IzYsaid0H5cJUDNzaUlRW_h_lmDX7muwIMFjgafBnS6VqF0eCIlPA2MttV5ZMZdKPGLAE-65PQ9GyNAW2HxR9R7IWzxUv6HU-hRudAL6XTzGxgQAM&as=S1275646382%3A1670787429002918&client_id=407408718192.apps.googleusercontent.com&pli=1&rapt=AEjHL4OCZUJMIf0Rx0Vl9Fe5W5Z-vqo1Viz8HQ-8VWsgS73_YCYI_F_EEchXqGlPBI9wzZOFJNonTNisLfgeTYPpgCHUo4dQ8Q#'>
+                        <a href='https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=https%3A%2F%2Fdevelopers.google.com%2Foauthplayground&prompt=consent&response_type=code&client_id=407408718192.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fspreadsheets.readonly&access_type=offline&service=lso&o2v=2&flowName=GeneralOAuthFlow'>
                             this link
                         </a>{' '}
-                        and click Allow
+                        , log in, and click Allow
                     </li>
                     <li> Cick "Exchange authorization code for tokens"</li>
                     <li>
